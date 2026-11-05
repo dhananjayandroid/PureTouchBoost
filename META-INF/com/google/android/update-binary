@@ -1,0 +1,47 @@
+#!/sbin/sh
+##########################################################################################
+#
+# Magisk / KernelSU / APatch Universal Module Installer
+# Author: imdjay
+#
+##########################################################################################
+
+umask 022
+
+ui_print() { echo "$1"; }
+
+OUTFD=$2
+ZIPFILE=$3
+
+# Load official environment if available
+[ -f /data/adb/magisk/util_functions.sh ] && . /data/adb/magisk/util_functions.sh
+[ -f /data/adb/ksu/util_functions.sh ] && . /data/adb/ksu/util_functions.sh
+[ -f /data/adb/ap/util_functions.sh ] && . /data/adb/ap/util_functions.sh
+
+if type install_module >/dev/null 2>&1; then
+    install_module
+    exit 0
+fi
+
+# Standalone fallback installer
+MODID="smooth_ui_boost"
+MODPATH="/data/adb/modules/$MODID"
+
+ui_print "**********************************************"
+ui_print "*      Smooth UI & Frame Pacing Booster      *"
+ui_print "*                 by imdjay                  *"
+ui_print "**********************************************"
+
+mkdir -p "$MODPATH" 2>/dev/null
+unzip -o "$ZIPFILE" -x 'META-INF/*' -d "$MODPATH" >&2
+
+# Permissions
+chmod -R 755 "$MODPATH"
+chmod 644 "$MODPATH/module.prop" 2>/dev/null
+chmod 644 "$MODPATH/system.prop" 2>/dev/null
+[ -f "$MODPATH/service.sh" ] && chmod 755 "$MODPATH/service.sh"
+[ -f "$MODPATH/action.sh" ] && chmod 755 "$MODPATH/action.sh"
+
+[ -f "$MODPATH/customize.sh" ] && . "$MODPATH/customize.sh"
+
+exit 0

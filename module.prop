@@ -1,0 +1,6 @@
+id=pure_touch_boost
+name=Pure PowerHAL Touch Booster (imdjay)
+version=v2.2
+versionCode=220
+author=imdjay
+description=Hardware touch boost & latency eliminator for Snapdragon 7+ Gen 2 (marble). Boosts Cortex-X3 Prime Core (1.28 GHz) & Big Cores (1.32 GHz) on touch with 350ms sustained interaction. Eliminates wake-up idle jank when opening notification & QS shade. Zero theme tampering.
